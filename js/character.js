@@ -18,30 +18,31 @@ this.initCharacter = function(){
 
 var character = {
 
-  top: 450,
-  left: 50,
+  y: 450,
+  x: 50,
   width:50,
   height:50,
-  isPossibleLeft: true,
-  isPossibleJump: true,
+  isPlataform: true,
+  isPossibleX: true,
+  isPossibleReturn: true,
   inter: function(){
-    if(this.top != 450){ 
-    character.top += 5 
-     
-  }
-  },
-
-  jump: function(){
-
-    if(character.isPossibleJump){
-      // Salto
-            this.top -= 130;
-            this.isPossibleJump = false
-          }
-
+    if(this.isPlataform == false){ 
+    
+    
+    this.y += 5 
     
 
   }
+  },
 
+  jump: function () {
 
-          }
+    if (this.isPlataform) {
+      // Salto
+      
+      this.y -= 200;
+     
+      this.isPlataform = false
+    }
+  }
+              }
