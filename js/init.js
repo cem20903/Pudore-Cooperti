@@ -13,11 +13,17 @@ window.onload = function(){
   var obstacle7 = new Obstacles(870,400,50,100,"wood",canvas);
   var obstacle8 = new Obstacles(920,450,40,50,"wood",canvas);
   var obstacle9 = new Obstacles(1050,390,120,50,"obstacle1",canvas)
-
 //Fin piramide
+var level2Obs1 = new Obstacles(400,390,120,50,"obstacle1",canvas)
+
+// Nivel 2
+
+
 
   var arrayObstacle = [obstacle1,obstacle2,obstacle3,
     obstacle4,obstacle5,obstacle6,obstacle7,obstacle8,obstacle9]
+
+  var arrayObstacleLevel2 = [level2Obs1]
   
   var object1 = new Object(440,360,30,30,"coin",canvas)
 
@@ -26,12 +32,25 @@ window.onload = function(){
   var imgCharacter = new Image();
   imgCharacter.src = "images/character.png"
 
-  var interruptor = true;
-
   
   setInterval(function () {
 
     clear()
+
+// //VELOCIDAD
+
+
+    if(character.velArray[0]==37){
+      character.x -= character.vel
+    }
+    
+    if(character.velArray[0]==39){
+      if(character.isPossibleX) {
+        character.x += character.vel
+      }
+     
+    }
+
 
     if(character.x >= 1400){
      level.numLevel++
@@ -42,17 +61,28 @@ window.onload = function(){
     canvas.drawImage(imgCharacter, character.x, character.y, character.width, character.height)
   
     if(level.numLevel == 1){
-    obstacle1.initObstacles()
-    object1.initObject()
-    obstacle2.initObstacles()
-    obstacle3.initObstacles()
-    obstacle4.initObstacles()
-    obstacle5.initObstacles()
-    obstacle6.initObstacles()
-    obstacle7.initObstacles()
-    obstacle8.initObstacles()
-    obstacle9.initObstacles()
+
+      arrayObstacle.forEach(function(obstacle){
+        obstacle.initObstacles()
+      })
+
+      arrayObstacle.forEach(function(obstacle){
+
+ 
+        if(/* Si el jugador esta por encima de la parte baja del muñeco */
+           character.y < obstacle.y + obstacle.height &&
+           character.y + character.height  > obstacle.y + 6 &&
+          character.x + character.width  > obstacle.x/* No cuadra, con obstacle.y funciona */ &&
+          obstacle.x + obstacle.width > character.x
+          ){
+            
+             character.isPossibleX = false
+          } 
+       
+       
+       })
     
+    object1.initObject()
     //if(character.x > 190 && character.x < 230)
     //alert("Tramp")
 
@@ -60,29 +90,15 @@ window.onload = function(){
 
   if(level.numLevel == 2){
     
+  console.log("asdf")
+    arrayObstacleLevel2.forEach(function(obstacle){
+      obstacle.initObstacles()
+    })
+
   }
 
     colision()
-    //Se refresca y permite que exista movimiento
-    //Cargamos cada XXX milisegundos
-    
-// if( (obstacle4.x >= 140 && obstacle4.x <= 200) && interruptor){
-//   obstacle4.x++
-// } else{
-//   interruptor = false
-// }
-// if(interruptor == false && obstacle4.x <= 201 && obstacle4.x >140 ){
-//   obstacle4.x--
-// } else {
-//   interruptor = true;
-// }
-
-
-
-
-
-    //La function colission comprueba las colisiones.
-comprobar()
+    // comprobar()
 
 
 }, 1000/60)
@@ -92,38 +108,8 @@ comprobar()
     
   }
 
-
-  function comprobar(){
-   // DA TRUE cuando esta en el mismo eje X console.log(character.x + character.width +3 > obstacle1.x)
-
-   //Funciona con el primer obstaculo
-   if(/* Si el jugador esta por encima de la parte baja del muñeco */
-     character.y < obstacle3.y + obstacle3.height &&
-     character.y + character.height /*-10*/ > obstacle3.y &&
-    character.x + character.width > obstacle3.y &&
-    obstacle3.x + obstacle3.width > character.x
-    ){
-     console.log("sss")
-     character.isPossibleX = false
-   } else {
-     character.isPossibleX = true
-   }
-
-
-
-  }
  
   function colision(){
-
-if(
-  character.x <  object1.x + object1.width &&
-      object1.x  < character.x + character.width &&
-      character.y < object1.y + object1.height &&
-      object1.y < character.y + character.height
-){
- // Coge la moneda  
-  console.log("Colision Moneda")
-}
 
   
 if(character.isPlataform == false){
@@ -133,56 +119,11 @@ if(character.isPlataform == false){
     // Suelo
     if(character.y == 450){
       character.isPlataform = true
+      character.isPossibleX = true
     }
 
- 
-
- 
 
 
-
-
-
-//Tercera plataforma 
-// if( (character.x + character.width) > obstacle3.x && character.x < obstacle3.x + obstacle3.width && character.y == 450){
-//   character.isPossibleX = false
-// } else {
-//   character.isPossibleX = true
-// }
-
-
-arrayObstacle.forEach(function(obstacle){
-  
-  
-//   if(character.y < obstacle.y + obstacle.height &&
-//   character.y + character.height  > obstacle.y &&
-//  character.x + character.width > obstacle.y &&
-//  obstacle.x + obstacle.width > character.x){
-//    console.log("asdf")
-//  }
-
-})
-
-// Esto funciona - Segunda plataforma
-
-
-// Volver para atras 2º obstaculo
-// if(character.x > obstacle2.x + (obstacle2.width - 5)&&(character.x < obstacle2.x + (obstacle2.width + 5))  && character.y == 450){
- 
-//  character.isPossibleReturn = false;
-
-// } else {
-//   character.isPossibleReturn = true;
-// } 
-
-//Volver para atras 3º obstaculo
-// if(character.x > obstacle3.x + (obstacle3.width - 5)
-// &&(character.x < obstacle3.x + (obstacle3.width + 5)) 
-// && character.y == 450){
-
-//   character.isPossibleReturn = false;
-
-// }
 
   if(character.y == 450){
     character.isPlataform = true;
@@ -190,61 +131,66 @@ arrayObstacle.forEach(function(obstacle){
     character.isPlataform = false;
   }
     
-
   arrayObstacle.forEach(function(obstacle){
-    
-
     //Para poder ANDAR POR ENCIMA
     if( character.y + character.height > obstacle.y 
       && character.x + character.width > obstacle.x 
       && character.x < obstacle.width + obstacle.x  ){
+
         character.isPlataform = true
       }
   })
 
   }
-
-
-  
-
   
   var loadBackground = new Background(canvas);
   loadBackground.initBackground();
 
-  /* var loadCharacter = new Character(canvas,50);
-  loadCharacter.initCharacter(); */
+
+window.addEventListener("keyup",function(e){
+
+  switch(e.keyCode){
+    case 37:
+   character.velArray.splice(0,1)
+    break;
+    case 39:
+    character.velArray.splice(0,1)
+    break;
+  }
+
+})
 
   window.addEventListener("keydown",function(e){
-
-    comprobar();
     switch (e.keyCode){
       case 37:
-    
+ // Pa atras   
       if(character.isPossibleReturn){
-      character.x -= 10;
+
+      character.x -= character.vel;
+      character.velArray[0] = e.keyCode
+      character.isPossibleX = true
     }
-//Pa izquierda
-      break;
-      case 39:
-      if(character.isPossibleX){
-        character.x += 10;
-      }
-     
 //Pa derecha
       break;
+      case 39:
+      console.log(character.isPossibleX)
+      // if(character.isPossibleX){
+      //   character.x += character.vel;
+        character.velArray[0] = e.keyCode
+  
+   
+      //   console.log("Avanzo")
+      // }
+     
+//Pa Saltar
+      break;
       case 32:
-      
+      character.isPossibleX = true
       if(character.isPlataform == true){
       character.jump();
     }
     break;
-      //37 Izd
-      //39 Der
-      //38 Arriba
     }
-     
-    
+  
     })
-
-
 }

@@ -25,13 +25,12 @@ var character = {
   isPlataform: true,
   isPossibleX: true,
   isPossibleReturn: true,
+  velArray: [],
+  vel: 4,
   inter: function(){
     if(this.isPlataform == false){ 
-    
-    
-    this.y += 5 
-    
-
+  
+    this.y += 5
   }
   },
 
@@ -39,10 +38,7 @@ var character = {
 
     if (this.isPlataform) {
       // Salto
-      
       this.y -= 200;
-     
-      this.isPlataform = false
     }
   }
               }
