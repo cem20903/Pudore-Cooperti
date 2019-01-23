@@ -1,4 +1,4 @@
-function Obstacles(x,y,width,height,img,canvas){
+function Obstacles(x,y,width,height,img,ctx){
 
   // left es X
   this.x = x;
@@ -6,17 +6,18 @@ function Obstacles(x,y,width,height,img,canvas){
   this.width = width;
   this.height = height;
   this.img = img;
-  this.canvas = canvas;
+  this.ctx = ctx;
   this.imgObstacles = new Image();
   this.imgObstacles.src = "images/"+ img + ".png"
   
-  this.initObstacles = function(){
-      //solucionar tema THIS
-    this.canvas.drawImage(this.imgObstacles,this.x,this.y,this.width,this.height) 
-  
-      }
 
 
 
+
+}
+
+Obstacles.prototype.draw = function(){
+
+  this.ctx.drawImage(this.imgObstacles,this.x,this.y,this.width,this.height) 
 
 }
