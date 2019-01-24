@@ -18,7 +18,7 @@ this.initCharacter = function(){
 function Character(game) {
 
   this.game = game,
-    this.x = 50;
+  this.x = 50;
   this.y = 450;
   this.width = 50;
   this.height = 50;
@@ -28,7 +28,7 @@ function Character(game) {
   this.velArray = [];
   this.vel = 4;
   this.imgCharacter = new Image();
-  this.imgCharacter.src = "images/character.png"
+  this.imgCharacter.src = "images/badplayer.png"
   this.setListener()
 
 }
@@ -92,7 +92,7 @@ Character.prototype.checkPlattform = function (obstacle) {
       return false
     }
 
-console.log(this.isPlataform)
+
 
 }
 
@@ -113,7 +113,7 @@ Character.prototype.checkPlattformX = function (obstacle) {
   if(/* Si el jugador esta por encima de la parte baja del muñeco */
     this.y < obstacle.y + obstacle.height &&
     this.y + this.height  > obstacle.y + 6 &&
-   this.x + this.width  > obstacle.x/* No cuadra, con obstacle.y funciona */ &&
+   this.x + this.width > obstacle.x/* No cuadra, con obstacle.y funciona */ &&
    obstacle.x + obstacle.width > this.x
    ){
       return true
@@ -140,7 +140,6 @@ Character.prototype.setListener = function () {
       case 39:
         if (this.isPossibleX) {
           this.x += this.vel;
-          console.log("Avanzo")
           this.velArray.push(e.keyCode)
         }
 
@@ -160,7 +159,7 @@ Character.prototype.setListener = function () {
 
   document.onkeyup = function (e) {
 
-    console.log(this.velArray)
+ 
 
     switch (e.keyCode) {
       case 37:
@@ -172,6 +171,28 @@ Character.prototype.setListener = function () {
       case 32:
         this.isPlataform = false
     }
+  }.bind(this)
+
+  this.game.canvas.onclick = function(){
+if(this.game.lives <= 1){
+
+  this.game.liveObjectsArray.splice(0,1)
+  this.game.message = "FIN DEL JUEGO, CASI CASI PERO NO"
+} else {
+    this.game.character.x = 50;
+    this.game.character.y = 450;
+  
+    this.game.level = []
+    this.game.createLevel();
+    this.game.objects = []
+    this.game.createObjects();
+    this.game.score = 0;
+    this.game.live = true;
+    this.game.liveObjectsArray.splice(0,1)
+    this.game.lives--
+  }
+      
+    
   }.bind(this)
 }
 

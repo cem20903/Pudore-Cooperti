@@ -9,10 +9,6 @@ function Obstacles(x,y,width,height,img,ctx){
   this.ctx = ctx;
   this.imgObstacles = new Image();
   this.imgObstacles.src = "images/"+ img + ".png"
-  
-
-
-
 
 }
 
